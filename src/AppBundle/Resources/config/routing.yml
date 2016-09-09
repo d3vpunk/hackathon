@@ -1,3 +1,9 @@
-app_product_image:
+app_product_list:
     path: /
     defaults: { _controller: AppBundle:Product:list }
+    methods: [GET]
+
+app_product_image_upload:
+    path: /image
+    defaults: { _controller: AppBundle:Product:upload }
+    methods: [POST, GET]

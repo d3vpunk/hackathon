@@ -1,0 +1,54 @@
+# carbage collection op de server wordt door een cronjob geregeld
+<IfModule mod_php5.c>
+php_value session.gc_probability 0
+php_value memory_limit 1024M
+php_value max_execution_time 600
+</IfModule>
+
+# Bestanden en directories beschermen
+<FilesMatch "\.(htaccess|log|php|twig|yml)$|^\..*$">
+  Order Allow,Deny
+  Deny from all
+</FilesMatch>
+<FilesMatch "app\.php$">
+  Order Allow,Deny
+  Allow from all
+</FilesMatch>
+
+DirectoryIndex app_dev.php
+
+# Inhoud van directories niet tonen.
+Options -Indexes
+
+# Volg symbolic links in deze directory.
+Options +FollowSymLinks
+
+# Alle 404 errors afhandelen door WM
+ErrorDocument 404 /web/app_dev.php
+
+# Forceer eenvoudige foutmelding voor requests naar niet bestaande favicon.ico
+<Files favicon.ico>
+  ErrorDocument 404 "Het opgevraagde bestand favicon.ico werd niet gevonden."
+</Files>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Voorkomt toegang tot "verborgen" directories (beginnen met een punt).
+  RewriteRule "(^|/)\." - [F]
+
+  # Domein normaliseren, trailing . verwijderen
+  RewriteCond %{HTTP_HOST} (.*)\.$ [NC]
+  RewriteRule ^(.*)$ http://%1/$1 [L,R=301]
+
+  # Stuurt alle requests door naar domein met 'www.' prefix. Dus:
+  # http://webstores.nl/... wordt doorgestuurd naar http://www.webstores.nl/...
+  # Subdomeinen worden uiteraard niet voorzien van 'www.'.
+  RewriteCond %{HTTP_HOST} !^www\.[a-z0-9-]+\.[a-z]{2,6}$ [NC]
+  RewriteCond %{HTTP_HOST} ^([a-z0-9-]+\.[a-z]{2,6})$ [NC]
+  RewriteRule ^(.*)$ http://www.%1/$1 [L,R=301]
+
+  # alle requests afhandelen in de web directory
+  RewriteRule    ^$ web/    [L]
+  RewriteRule    (.*) web/$1 [L]
+</IfModule>

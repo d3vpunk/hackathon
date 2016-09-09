@@ -25,11 +25,14 @@ class ProductController extends Controller
 
         if ($imageForm->isSubmitted()) {
             $tags = $this->get('clarifai.client')->getTagsByImageFile($imageForm->get('file')->getData());
+            $tags = [];
 
             $productRepository = $this->get('doctrine')->getRepository('AppBundle:Product');
             $products = $productRepository->getProductsByTags($tags);
 
-            return new Response(['products' => $products]);
+            $serializer = $this->get('jms_serializer');
+
+            return new Response($serializer->serialize($products, 'json'));
         }
 
         return $this->render('AppBundle:Product:upload.html.twig', [

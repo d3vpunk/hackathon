@@ -13,6 +13,6 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
 
     public function getProductsByTags(array $tags)
     {
-
+        return $this->findAll();
     }
 }

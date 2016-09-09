@@ -1,0 +1,3 @@
+app_product_image:
+    path: /
+    defaults: { _controller: AppBundle:Product:list }

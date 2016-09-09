@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * Product
@@ -20,6 +21,12 @@ class Product
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="ProductTag", mappedBy="products", cascade="all")
+     * @JMS\Exclude
+     */
+    private $tags;
 
     /**
      * @var string
@@ -154,6 +161,24 @@ class Product
     public function getImageUrl()
     {
         return $this->imageUrl;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTags()
+    {
+        return $this->tags;
     }
 }
 

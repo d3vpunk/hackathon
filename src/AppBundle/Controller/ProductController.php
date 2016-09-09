@@ -13,8 +13,9 @@ class ProductController extends Controller
     public function listAction()
     {
         $productRepository = $this->get('doctrine')->getRepository('AppBundle:Product');
+        $serializer = $this->get('jms_serializer');
 
-        return new Response(['products' => $productRepository->findAll()]);
+        return new Response($serializer->serialize($productRepository->findAll(), 'json'));
     }
 
     public function uploadAction(Request $request)

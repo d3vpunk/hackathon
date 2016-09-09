@@ -1,6 +1,6 @@
 app_product_list:
     path: /
-    defaults: { _controller: AppBundle:Product:list }
+    defaults: { _controller: AppBundle:Product:list, _format: json }
     methods: [GET]
 
 app_product_image_upload:

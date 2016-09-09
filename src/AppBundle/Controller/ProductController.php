@@ -12,7 +12,9 @@ class ProductController extends Controller
 
     public function listAction()
     {
-        return new Response();
+        $productRepository = $this->get('doctrine')->getRepository('AppBundle:Product');
+
+        return new Response(['products' => $productRepository->findAll()]);
     }
 
     public function uploadAction(Request $request)
@@ -21,13 +23,16 @@ class ProductController extends Controller
         $imageForm->handleRequest($request);
 
         if ($imageForm->isSubmitted()) {
-            $imageAiRatings = $this->get('clarifai.client')->getTagsByImageFile($imageForm->get('file')->getData());
+            $tags = $this->get('clarifai.client')->getTagsByImageFile($imageForm->get('file')->getData());
+
+            $productRepository = $this->get('doctrine')->getRepository('AppBundle:Product');
+            $products = $productRepository->getProductsByTags($tags);
+
+            return new Response(['products' => $products]);
         }
 
         return $this->render('AppBundle:Product:upload.html.twig', [
             'imageForm' => $imageForm->createView(),
         ]);
     }
-
-
 }

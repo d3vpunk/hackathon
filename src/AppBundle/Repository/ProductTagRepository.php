@@ -10,4 +10,14 @@ namespace AppBundle\Repository;
  */
 class ProductTagRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    /**
+     * @param MediaTag[] $mediaTags
+     *
+     * @return array
+     */
+    public function getProductsByMediaTags(array $mediaTags)
+    {
+        return $this->findBy([], [], 10);
+    }
 }

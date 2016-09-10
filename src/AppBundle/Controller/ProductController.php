@@ -10,14 +10,22 @@ use Symfony\Component\HttpFoundation\Response;
 class ProductController extends Controller
 {
 
+    /**
+     * @return Response
+     */
     public function listAction()
     {
         $productRepository = $this->get('doctrine')->getRepository('AppBundle:Product');
-        $serializer = $this->get('jms_serializer');
+        $products = $productRepository->findBy([], ['popularity' => 'DESC'], 10);
 
-        return new Response($serializer->serialize($productRepository->findBy([], ['popularity' => 'DESC'], 10), 'json'));
+        return new Response($this->get('jms_serializer')->serialize($products), 'json');
     }
 
+    /**
+     * @param Request $request
+     *
+     * @return Response
+     */
     public function uploadAction(Request $request)
     {
         $imageForm = $this->createForm(ImageType::class);
@@ -25,14 +33,11 @@ class ProductController extends Controller
 
         if ($imageForm->isSubmitted()) {
             $mediaTags = $this->get('clarifai.client')->getTagsByImageFile($imageForm->get('file')->getData());
-            $mediaTags = [];
 
-            $productRepository = $this->get('doctrine')->getRepository('AppBundle:Product');
-            $products = $productRepository->getProductsByMediaTags($mediaTags);
+            $productTagRepository = $this->get('doctrine')->getRepository('AppBundle:ProductTag');
+            $products = $productTagRepository->getProductsByMediaTags($mediaTags);
 
-            $serializer = $this->get('jms_serializer');
-
-            return new Response($serializer->serialize($products, 'json'));
+            return new Response($this->get('jms_serializer')->serialize($products, 'json'));
         }
 
         return $this->render('AppBundle:Product:upload.html.twig', [

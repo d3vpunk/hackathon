@@ -12,14 +12,4 @@ use AppBundle\Model\MediaTag;
  */
 class ProductRepository extends \Doctrine\ORM\EntityRepository
 {
-
-    /**
-     * @param MediaTag[] $mediaTags
-     *
-     * @return array
-     */
-    public function getProductsByMediaTags(array $mediaTags)
-    {
-        return $this->findBy([], [], 10);
-    }
 }

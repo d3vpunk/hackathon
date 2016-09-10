@@ -13,17 +13,16 @@ class MediaTag
 {
     private $name;
 
-    private $tag;
+    private $score;
 
     /**
      * MediaTag constructor.
      * @param $name
-     * @param $tag
      */
-    public function __construct($name, $tag)
+    public function __construct($name, $score)
     {
         $this->name = $name;
-        $this->tag = $tag;
+        $this->score = $score;
     }
 
     /**
@@ -34,11 +33,8 @@ class MediaTag
         return $this->name;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTag()
+    public function getScore()
     {
-        return $this->tag;
+        return $this->score;
     }
 }

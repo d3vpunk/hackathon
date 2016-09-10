@@ -37,7 +37,7 @@ class ProductTag
     private $product;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Tag")
+     * @ORM\ManyToOne(targetEntity="Tag", inversedBy="productTags")
      */
     private $tag;
 

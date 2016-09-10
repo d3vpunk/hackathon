@@ -30,12 +30,18 @@ class ProductController extends Controller
     {
         $imageForm = $this->createForm(ImageType::class);
         $imageForm->handleRequest($request);
+        $productRepository = $this->get('doctrine')->getRepository('AppBundle:Product');
 
         if ($imageForm->isSubmitted()) {
             $mediaTags = $this->get('clarifai.client')->getTagsByImageFile($imageForm->get('file')->getData());
 
             $productTagRepository = $this->get('doctrine')->getRepository('AppBundle:ProductTag');
-            $products = $productTagRepository->getProductsByMediaTags($mediaTags);
+            $matches = $productRepository->getProductsByMediaTags($mediaTags);
+
+            $products = [];
+            foreach($matches as $match) {
+                $products[] = $match['product'];
+            }
 
             return new Response($this->get('jms_serializer')->serialize($products, 'json'));
         }

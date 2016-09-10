@@ -30,6 +30,12 @@ class Tag
     private $name;
 
     /**
+     * @ORM\OneToMany(targetEntity="ProductTag", mappedBy="tag")
+     * @JMS\Exclude
+     */
+    private $productTags;
+
+    /**
      * Get id
      *
      * @return int
@@ -103,6 +109,14 @@ class Tag
     public function getProducts()
     {
         return $this->products;
+    }
+
+    /**
+     * @return ProductTag[]
+     */
+    public function getProductTags()
+    {
+        return $this->productTags;
     }
 }
 

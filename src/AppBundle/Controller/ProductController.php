@@ -2,13 +2,47 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Form\Type\ImageType;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Entity\Product;
+use AppBundle\Form\Type\ImageType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+
+/**
+ * Product controller.
+ *
+ */
 class ProductController extends Controller
 {
+    /**
+     * Lists all Product entities.
+     *
+     */
+    public function indexAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $products = $em->getRepository('AppBundle:Product')->findBy([], ['title' => 'asc']);
+
+        return $this->render('product/index.html.twig', array(
+            'products' => $products,
+        ));
+    }
+
+    /**
+     * Finds and displays a Product entity.
+     *
+     */
+    public function showAction(Product $product)
+    {
+
+        return $this->render('product/show.html.twig', array(
+            'product' => $product,
+        ));
+    }
+
 
     /**
      * @return Response

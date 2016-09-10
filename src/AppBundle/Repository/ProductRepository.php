@@ -66,12 +66,14 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
             }
         }
 
-
         usort($groupedByProduct, function($a, $b) {
-            if ($a['total_score'] < $b['total_score']) {
+            $a_ = $a['total_score'] / (count($a['matches']) / 2);
+            $b_ = $b['total_score'] / (count($b['matches']) / 2);
+
+            if ($a_ < $b_) {
                 return 1;
             }
-            if ($a['total_score'] > $b['total_score']) {
+            if ($a_ > $b_) {
                 return -1;
             }
 

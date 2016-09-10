@@ -1,3 +1,7 @@
+app_product:
+    resource: "@AppBundle/Resources/config/routing/product.yml"
+    prefix:   /product
+
 app_product_list:
     path: /
     defaults: { _controller: AppBundle:Product:list, _format: json }

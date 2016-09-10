@@ -24,6 +24,7 @@ class Product
 
     /**
      * @ORM\OneToMany(targetEntity="ProductTag", mappedBy="product", cascade="all")
+     * @JMS\Exclude
      */
     private $productTags;
 

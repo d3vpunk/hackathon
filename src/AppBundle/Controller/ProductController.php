@@ -18,7 +18,7 @@ class ProductController extends Controller
         $productRepository = $this->get('doctrine')->getRepository('AppBundle:Product');
         $products = $productRepository->findBy([], ['popularity' => 'DESC'], 10);
 
-        return new Response($this->get('jms_serializer')->serialize($products), 'json');
+        return new Response($this->get('jms_serializer')->serialize($products, 'json'));
     }
 
     /**

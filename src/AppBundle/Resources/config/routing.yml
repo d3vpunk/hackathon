@@ -12,3 +12,13 @@ app_product_image_upload_form:
     path: /image
     defaults: { _controller: AppBundle:Product:upload }
     methods: [GET]
+
+app_product_image_tag_upload:
+    path: /tag
+    defaults: { _controller: AppBundle:Product:tag, _format: json }
+    methods: [POST]
+
+app_product_image_tag_upload_form:
+    path: /tag
+    defaults: { _controller: AppBundle:Product:tag }
+    methods: [GET]

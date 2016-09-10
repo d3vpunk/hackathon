@@ -44,4 +44,20 @@ class ProductController extends Controller
             'imageForm' => $imageForm->createView(),
         ]);
     }
+
+    public function tagAction(Request $request)
+    {
+        $imageForm = $this->createForm(ImageType::class);
+        $imageForm->handleRequest($request);
+
+        if ($imageForm->isSubmitted()) {
+            $mediaTags = $this->get('clarifai.client')->getTagsByImageFile($imageForm->get('file')->getData());
+
+            return new Response($this->get('jms_serializer')->serialize($mediaTags, 'json'));
+        }
+
+        return $this->render('AppBundle:Product:upload.html.twig', [
+            'imageForm' => $imageForm->createView(),
+        ]);
+    }
 }

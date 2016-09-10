@@ -23,10 +23,9 @@ class Product
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="ProductTag", mappedBy="products", cascade="all")
-     * @JMS\Exclude
+     * @ORM\OneToMany(targetEntity="ProductTag", mappedBy="product", cascade="all")
      */
-    private $tags;
+    private $productTags;
 
     /**
      * @var string
@@ -56,6 +55,12 @@ class Product
      */
     private $imageUrl;
 
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="popularity", type="float")
+     */
+    private $popularity;
 
     /**
      * Get id
@@ -166,9 +171,9 @@ class Product
     /**
      * {@inheritDoc}
      */
-    public function setTags($tags)
+    public function setProductTags($productTags)
     {
-        $this->tags = $tags;
+        $this->productTags = $productTags;
 
         return $this;
     }
@@ -176,9 +181,27 @@ class Product
     /**
      * {@inheritDoc}
      */
-    public function getTags()
+    public function getProductTags()
     {
-        return $this->tags;
+        return $this->productTags;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setPopularity($popularity)
+    {
+        $this->popularity = $popularity;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPopularity()
+    {
+        return $this->popularity;
     }
 }
 

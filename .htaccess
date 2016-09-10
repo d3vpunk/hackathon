@@ -15,7 +15,7 @@ php_value max_execution_time 600
   Allow from all
 </FilesMatch>
 
-DirectoryIndex app_dev.php
+DirectoryIndex app.php
 
 # Inhoud van directories niet tonen.
 Options -Indexes
@@ -24,7 +24,7 @@ Options -Indexes
 Options +FollowSymLinks
 
 # Alle 404 errors afhandelen door WM
-ErrorDocument 404 /web/app_dev.php
+ErrorDocument 404 /web/app.php
 
 # Forceer eenvoudige foutmelding voor requests naar niet bestaande favicon.ico
 <Files favicon.ico>

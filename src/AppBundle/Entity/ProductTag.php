@@ -3,9 +3,10 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 
 /**
- * ProductTag
+ * ProductTagsProduct
  *
  * @ORM\Table(name="product_tag")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ProductTagRepository")
@@ -22,28 +23,23 @@ class ProductTag
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Product", fetch="EXTRA_LAZY", inversedBy="tags")
-     * @ORM\JoinTable(name="ProductTags_Products",
-     *     joinColumns={@ORM\JoinColumn(name="productTagId")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="productId")}
-     * )
-     */
-    private $products;
-
-
-    /**
-     * @var string
+     * @var float
      *
-     * @ORM\Column(name="name", type="string", length=255, unique=true)
-     */
-    private $name;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="score", type="integer")
+     * @ORM\Column(name="score", type="float")
      */
     private $score;
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Product", inversedBy="productTags")
+     * @JMS\Exclude
+     */
+    private $product;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Tag")
+     */
+    private $tag;
 
 
     /**
@@ -57,33 +53,9 @@ class ProductTag
     }
 
     /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return ProductTag
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
      * Set score
      *
-     * @param integer $score
+     * @param float $score
      *
      * @return ProductTag
      */
@@ -97,7 +69,7 @@ class ProductTag
     /**
      * Get score
      *
-     * @return int
+     * @return float
      */
     public function getScore()
     {
@@ -107,9 +79,9 @@ class ProductTag
     /**
      * {@inheritDoc}
      */
-    public function setProducts($products)
+    public function setProduct($product)
     {
-        $this->products = $products;
+        $this->product = $product;
 
         return $this;
     }
@@ -117,9 +89,28 @@ class ProductTag
     /**
      * {@inheritDoc}
      */
-    public function getProducts()
+    public function getProduct()
     {
-        return $this->products;
+        return $this->product;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setTag($tag)
+    {
+        $this->tag = $tag;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTag()
+    {
+        return $this->tag;
+    }
+
 }
 

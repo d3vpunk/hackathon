@@ -15,7 +15,7 @@ class ProductController extends Controller
         $productRepository = $this->get('doctrine')->getRepository('AppBundle:Product');
         $serializer = $this->get('jms_serializer');
 
-        return new Response($serializer->serialize($productRepository->findAll(), 'json'));
+        return new Response($serializer->serialize($productRepository->findBy([], ['popularity' => 'DESC'], 10), 'json'));
     }
 
     public function uploadAction(Request $request)
@@ -24,11 +24,11 @@ class ProductController extends Controller
         $imageForm->handleRequest($request);
 
         if ($imageForm->isSubmitted()) {
-            $tags = $this->get('clarifai.client')->getTagsByImageFile($imageForm->get('file')->getData());
-            $tags = [];
+            $mediaTags = $this->get('clarifai.client')->getTagsByImageFile($imageForm->get('file')->getData());
+            $mediaTags = [];
 
             $productRepository = $this->get('doctrine')->getRepository('AppBundle:Product');
-            $products = $productRepository->getProductsByTags($tags);
+            $products = $productRepository->getProductsByMediaTags($mediaTags);
 
             $serializer = $this->get('jms_serializer');
 

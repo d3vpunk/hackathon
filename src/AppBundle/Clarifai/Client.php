@@ -11,6 +11,8 @@ class Client
     public function getTagsByImageFile(\SplFileInfo $imageFile)
     {
         $accessToken = $this->getAccessToken();
+
+        return [];
     }
 
     private function getAccessToken()
@@ -31,8 +33,6 @@ class Client
 
         $response = curl_exec ($ch);
 
-        var_dump($response);
-        die();
 
         curl_close ($ch);
 

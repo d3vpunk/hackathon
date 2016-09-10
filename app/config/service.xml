@@ -10,7 +10,9 @@
     </parameters>
 
     <services>
-        <service class="AppBundle\Clarifai\Client" id="clarifai.client"/>
+        <service class="AppBundle\Clarifai\Client" id="clarifai.client">
+            <argument>%kernel.cache_dir%</argument>
+        </service>
     </services>
 
 </container>

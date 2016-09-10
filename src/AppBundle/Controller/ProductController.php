@@ -74,6 +74,9 @@ class ProductController extends Controller
 
             $products = [];
             foreach($matches as $match) {
+                if ($match["total_score"] < 1.3) {
+                    continue;
+                }
                 $products[] = $match['product'];
             }
 

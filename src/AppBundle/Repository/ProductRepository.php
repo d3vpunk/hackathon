@@ -81,6 +81,7 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
         });
 
 
+
         return $groupedByProduct;
     }
 }

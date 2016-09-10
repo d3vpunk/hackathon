@@ -58,7 +58,7 @@ class Product
     /**
      * @var float
      *
-     * @ORM\Column(name="score", type="float")
+     * @ORM\Column(name="popularity", type="float")
      */
     private $popularity;
 
